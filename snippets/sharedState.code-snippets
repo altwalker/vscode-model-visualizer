@@ -1,0 +1,9 @@
+{
+    "SharedState": {
+      "prefix": ["sharedState"],
+      "body": [
+            "\"sharedState\": \"$1\"$0"
+      ],
+      "description": "SharedState template. SharedState field is optional, it can be used to link to vertices from different models. Any vertices with the same value for sharedState are linked."
+    }
+}

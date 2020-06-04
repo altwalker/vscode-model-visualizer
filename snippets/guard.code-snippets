@@ -1,0 +1,9 @@
+{
+    "Guard": {
+      "prefix": ["guard"],
+      "body": [
+            "\"guard\": \"$1\"$0"
+      ],
+      "description": "Guard template. Guard field is optional, it can be used to set a guard on this edge."
+    }
+}

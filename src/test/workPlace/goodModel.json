@@ -1,0 +1,38 @@
+{
+    "name": "Default Models",
+    "models": [
+        {
+            "name": "DefaultModel",
+            "generator": "random(never)",
+            "startElementId": "v0",
+            "vertices": [
+                {
+                    "id": "v0",
+                    "name": "start_vertex"
+                },
+                {
+                    "id": "v1",
+                    "name": "state_a"
+                },
+                {
+                    "id": "v2",
+                    "name": "state_b"
+                }
+            ],
+            "edges": [
+                {
+                    "id": "e0",
+                    "name": "action_a",
+                    "sourceVertexId": "v0",
+                    "targetVertexId": "v1"
+                },
+                {
+                    "id": "e1",
+                    "name": "action_b",
+                    "sourceVertexId": "v0",
+                    "targetVertexId": "v2"
+                }
+            ]
+        }
+    ]
+}

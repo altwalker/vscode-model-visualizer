@@ -1,0 +1,9 @@
+{
+    "Dependency": {
+      "prefix": ["dependency"],
+      "body": [
+            "\"dependency\": \"$1\"$0"
+      ],
+      "description": "Dependency template. Dependency field is optional, it can be used to set dependencies and use them with dependency_edge_coverage."
+    }
+}
