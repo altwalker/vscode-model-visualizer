@@ -1,0 +1,15 @@
+
+{
+    "Edge": {
+      "prefix": ["edge"],
+      "body": [
+            "{",
+            "\t\"id\": \"$1\",",
+            "\t\"name\": \"$2\",",
+            "\t\"sourceVertexId\": \"$3\",",
+            "\t\"targetVertexId\": \"$4\"",
+            "}$0"
+      ],
+      "description": "Edge template. An edge is an action that takes the system under tests form one state (vertex) to another."
+    }
+}

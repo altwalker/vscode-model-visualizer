@@ -1,0 +1,13 @@
+
+{
+    "Vertex": {
+      "prefix": ["vertex"],
+      "body": [
+            "{",
+            "\t\"id\": \"$1\",",
+            "\t\"name\": \"$2\"",
+            "}$0"
+      ],
+      "description": "Vertex template. A vertex is a state of the system under tests. In the test code this is the place where the actual test (asserts) takes place."
+    }
+}

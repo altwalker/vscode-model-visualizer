@@ -6,20 +6,109 @@
 	"engines": {
 		"vscode": "^1.44.0"
 	},
+	"repository": {
+		"type": "git",
+		"url": "https://gitlab.com/altom/altwalker/extensions/vscode-model-visualizer"
+	},
+	"bugs": {
+		"url": "https://gitlab.com/altom/altwalker/extensions/vscode-model-visualizer/-/issues"
+	},
+  	"keywords": [
+    "Altwalker",
+    "JSON",
+    "VSCode",
+	"GraphWalker",
+	"Model",
+	"Model-Visualizer"
+	],
+	"icon": "images/icon.png",
 	"categories": [
-		"Other"
+		"Other",
+		"Snippets"
 	],
 	"activationEvents": [
-		"onCommand:altwalker-model-visualizer.helloWorld"
+		"onCommand:extension.launch"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
+		"configuration": {
+			"title": "AltWalker Model Visualizer"
+		},
+		"snippets": [
+			{
+			  "language": "json",
+			  "path": "snippets/model.code-snippets"
+			},
+			{
+				"language": "json",
+				"path": "snippets/generator.code-snippets"
+			},
+			{
+				"language": "json",
+				"path": "snippets/vertex.code-snippets"
+			},
+			{
+				"language": "json",
+				"path": "snippets/edge.code-snippets"
+			},
+			{
+				"language": "json",
+				"path": "snippets/altwalker.code-snippets"
+			},
+			{
+				"language": "json",
+				"path": "snippets/actions.code-snippets"
+			},
+			{
+				"language": "json",
+				"path": "snippets/requirements.code-snippets"
+			},
+			{
+				"language": "json",
+				"path": "snippets/properties.code-snippets"
+			},
+			{
+				"language": "json",
+				"path": "snippets/guard.code-snippets"
+			},
+			{
+				"language": "json",
+				"path": "snippets/sharedState.code-snippets"
+			},
+			{
+				"language": "json",
+				"path": "snippets/weight.code-snippets"
+			},
+			{
+				"language": "json",
+				"path": "snippets/dependency.code-snippets"
+			}
+		],
 		"commands": [
 			{
-				"command": "altwalker-model-visualizer.helloWorld",
-				"title": "Hello World"
+				"command": "extension.launch",
+				"title": "Launch Model Visualizer"
+			},
+			{
+				"command": "extension.insertSnippet",
+				"title": "Insert Default Model Snippet"
 			}
-		]
+		],
+		"keybindings": [
+			{
+			  "command": "extension.launch",
+			  "key": "ctrl+shift+v",
+			  "mac": "cmd+shift+v"
+			}
+		],
+		"menus": {
+			"editor/context": [
+				{
+				  	"command": "extension.launch",
+				  	"when": "resourceLangId == json"
+				}
+			]
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",

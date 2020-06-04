@@ -1,0 +1,14 @@
+{
+    "Altwalker": {
+      "prefix": ["altwalker"],
+      "body": [
+            "{",
+            "\t\"name\": \"$1\",",
+            "\t\"models\": [",
+            "\t\t$0",
+            "\t]",
+            "}"
+      ],
+      "description": "AltWalker models file template."
+    }
+}

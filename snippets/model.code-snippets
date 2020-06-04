@@ -1,0 +1,17 @@
+{
+    "Model": {
+      "prefix": ["model"],
+      "body": [
+            "{",
+            "\t\"name\": \"$1\",",
+            "\t\"generator\": \"${2:random(never)}\",",
+            "\t\"startElementId\": \"$3\",",
+            "\t\"vertices\": [",
+            "\t\t$0",
+            "\t],",
+            "\t\"edges\": []",
+            "}"
+      ],
+      "description": "Model template."
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "Actions": {
+      "prefix": ["actions"],
+      "body": [
+            "\"actions\": [",
+            "\t\"$1\"",
+            "],$0"
+      ],
+      "description": "Action template. An action is a piece of JavaScript code executed by GraphWalker. You can place action on the model level which will be executed before any step from that model or on an edge which will be executed when an edge is reached."
+    }
+}

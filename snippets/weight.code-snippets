@@ -1,0 +1,9 @@
+{
+    "Weight": {
+      "prefix": ["weight"],
+      "body": [
+            "\"weight\": \"$1\"$0"
+      ],
+      "description": "Weight template. Weight field is optional, it can be used to set weights and use them with weighted_random."
+    }
+}

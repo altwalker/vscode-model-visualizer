@@ -1,0 +1,10 @@
+
+{
+    "Generator": {
+      "prefix": ["generator"],
+      "body": [
+            "\"generator\": \"${1:random(never)}\"$0"
+      ],
+      "description": "Generator template. A generator is an algorithm that decides how to traverse a model. Different generators will generate different test sequences, and they will navigate in different ways."
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "Requirements": {
+      "prefix": ["requirements"],
+      "body": [
+            "\"requirements\": [",
+            "\t\"$1\"",
+            "]$0"
+      ],
+      "description": "Requirements template. Requirements field is optional, it can be used to set tags on vertices and use them with requirement_coverage."
+    }
+}

@@ -1,27 +1,76 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import { ModelProvider } from './modelProvider';
+import * as path from 'path';
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "altwalker-model-visualizer" is now active!');
+	const provider = new ModelProvider();
+	let panel: vscode.WebviewPanel | undefined = undefined;
+	const iconDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'images', 'icon.png'));
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('altwalker-model-visualizer.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
+	let disposable: any = vscode.commands.registerCommand('extension.launch', () => {
 
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from AltWalker Model Visualizer!');
+		let viewColumn: vscode.ViewColumn;
+
+		if (vscode.window.activeTextEditor?.viewColumn){
+			viewColumn = vscode.window.activeTextEditor.viewColumn + 1;
+		} else {
+			viewColumn = 1;
+		}
+
+		if (panel) {
+			panel.reveal(viewColumn);
+		} else {
+			panel = vscode.window.createWebviewPanel(
+				'modelVisualizer',
+				'AltWalker Model Visualizer',
+				viewColumn,
+				{
+					enableScripts: true,
+					retainContextWhenHidden: true
+				}
+			);
+		}
+
+		panel.iconPath = iconDiskPath;
+		panel.webview.html = provider.provideTextDocumentContent();
+
+		vscode.window.onDidChangeActiveTextEditor(e => {
+			var editor = vscode.window.activeTextEditor;
+			if (editor) {
+				if (editor.document.languageId === 'json') {
+					if (panel) {
+						var models = JSON.parse(editor.document.getText());
+						panel.webview.postMessage({ command: 'newModel', model: models});
+					}
+				}
+			}
+		});
+
+
+		vscode.workspace.onDidChangeTextDocument(e => {
+			var editor = vscode.window.activeTextEditor;
+			if (editor) {
+				if (editor.document.languageId === 'json') {
+					if (panel) {
+						var models = JSON.parse(editor.document.getText());
+						panel.webview.postMessage({ command: 'newModel', model: models});
+					}
+				}
+			}
+		});
+
+
+		panel.onDidDispose(() => {
+			panel = undefined;
+		},
+			undefined,
+			context.subscriptions
+		);
 	});
+
 
 	context.subscriptions.push(disposable);
 }
 
-// this method is called when your extension is deactivated
 export function deactivate() {}

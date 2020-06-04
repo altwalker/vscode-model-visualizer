@@ -1,0 +1,23 @@
+stages:
+  - dependencies
+  - lint
+
+image: node:14.3.0-stretch
+
+cache:
+  key: "$CI_PIPELINE_ID"
+  paths:
+    - node_modules
+    - bower_components
+
+install_dependencies:
+  stage: dependencies
+  script:
+    - npm install
+    - npm update
+
+lint:
+  stage: lint
+  script:
+    - npm run lint
+

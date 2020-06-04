@@ -1,0 +1,11 @@
+{
+    "Properties": {
+      "prefix": ["properties"],
+      "body": [
+            "\"properties\": {",
+            "\t\"${1:description}\": \"$2\"",
+            "}$0"
+      ],
+      "description": "Properties template. Properties field is optional, it can be used to store pairs of key/data."
+    }
+}
