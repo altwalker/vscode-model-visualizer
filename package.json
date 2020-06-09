@@ -14,17 +14,22 @@
 		"url": "https://gitlab.com/altom/altwalker/extensions/vscode-model-visualizer/-/issues"
 	},
   	"keywords": [
-    "Altwalker",
+    "AltWalker",
     "JSON",
-    "VSCode",
+	"VSCode",
+	"Graph",
 	"GraphWalker",
 	"Model",
-	"Model-Visualizer"
+	"Model-Visualizer",
+	"Python",
+	"C#",
+	"Java"
 	],
 	"icon": "images/icon.png",
 	"categories": [
 		"Other",
-		"Snippets"
+		"Snippets",
+		"Formatters"
 	],
 	"activationEvents": [
 		"onCommand:extension.launch"
@@ -82,6 +87,10 @@
 			{
 				"language": "json",
 				"path": "snippets/dependency.code-snippets"
+			},
+			{
+				"language": "json",
+				"path": "snippets/example.code-snippets"
 			}
 		],
 		"commands": [

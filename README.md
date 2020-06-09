@@ -1,65 +1,88 @@
-# altwalker-model-visualizer README
+# AltWalker Model Visualizer
 
-This is the README for your extension "altwalker-model-visualizer". After writing up a brief description, we recommend including the following sections.
+A Visual Studio Code extension for visualizing and editing JSON models. It expects the format required by [AltWalker](https://altom.gitlab.io/altwalker/altwalker/) and [GraphWalker](http://graphwalker.github.io/).
+
+[AltWalker](https://altom.gitlab.io/altwalker/altwalker/) is a Model-Based Testing framework that supports running tests written in python3 and .NET/C#.
+
+[GraphWalker](http://graphwalker.github.io/) is a Model-Based testing tool. It reads models in the shape of directed graphs, and generates test paths from these graphs.
+
+![Screenshot](/images/model.png)
+
+## Required Dependencies
+
+* [D3](https://d3js.org/)
+* [dagre-d3](https://github.com/dagrejs/dagre-d3)
+* [d3-legend](https://d3-legend.susielu.com/)
+* [Vue.js](https://vuejs.org/)
+* [Model-Visualizer](https://altom.gitlab.io/altwalker/model-visualizer/build/model-visualizer.js)
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+* `Preview on side panel (ctrl+shift+v)`: Open Altwalker Model Visualizer on side panel. With this feature, you can easily check your [AltWalker](https://altom.gitlab.io/altwalker/altwalker/) or [GraphWalker](http://graphwalker.github.io/) model.
 
-For example if there is an image subfolder under your extension project workspace:
+![feature](images/start.gif)
 
-\!\[feature X\]\(images/feature-x.png\)
+## Models Format
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+An example can be found [here](./model.json).
 
-## Requirements
+For more informations you can visit [AltWalker documentation](https://altom.gitlab.io/altwalker/altwalker/) or [Graphwalker documentation](https://graphwalker.github.io/).
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+## Snippets
 
-## Extension Settings
+<dl>
+  <dt>Ctrl+Space</dt>
+    <dd>For snippets suggestions.</dd>
+  <dt>actions</dt>
+    <dd>Creates an action template. An action is a piece of JavaScript code executed by GraphWalker. You can place action on the model level which will be executed before any step from that model or on an edge which will be executed when an edge is reached.</dd>
+  <dt>altwalker</dt>
+    <dd>Creates an AltWalker models file template.</dd>
+  <dt>dependency</dt>
+    <dd>Creates a dependency template. Dependency field is optional, it can be used to set dependencies and use them with dependency_edge_coverage.</dd>
+  <dt>edge</dt>
+    <dd>Creates an edge template. An edge is an action that takes the system under tests form one state (vertex) to another.</dd>
+  <dt>example</dt>
+    <dd>Creates an example model with three vertices.</dd>
+  <dt>generator</dt>
+    <dd>Creates a generator template. A generator is an algorithm that decides how to traverse a model. Different generators will generate different test sequences, and they will navigate in different ways.</dd>
+  <dt>guard</dt>
+    <dd>Creates a guard template. Guard field is optional, it can be used to set a guard on this edge.</dd>
+  <dt>model</dt>
+    <dd>Creates a model template.</dd>
+  <dt>properties</dt>
+    <dd>Creates a properties template. Properties field is optional, it can be used to store pairs of key/data.</dd>
+  <dt>requirements</dt>
+    <dd>Creates a requirements template. Requirements field is optional, it can be used to set tags on vertices and use them with requirement_coverage.</dd>
+  <dt>sharedState</dt>
+    <dd>Creates a sharedState template. SharedState field is optional, it can be used to link to vertices from different models. Any vertices with the same value for sharedState are linked.</dd>
+  <dt>vertex</dt>
+    <dd>Creates a vertex template. A vertex is a state of the system under tests. In the test code this is the place where the actual test (asserts) takes place.<dd>
+  <dt>weight</dt>
+    <dd>Creates a weight template. Weight field is optional, it can be used to set weights and use them with weighted_random.<dd>
+</dl>
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+## Support
 
-For example:
+For help with modeling you can read our guide [here](https://altom.gitlab.io/altwalker/altwalker/modeling.html).
 
-This extension contributes the following settings:
+Join our Gitter chat room [here](https://gitter.im/altwalker/community) to chat with us or with other members of the community.
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+## Developement Setup
 
-## Known Issues
+* `git clone https://gitlab.com/altom/altwalker/extensions/vscode-model-visualizer`
+* `cd vscode-model-visualizer`
+* `npm install`
+* `code .`
+* `F5` to start
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+## Running Tests
 
-## Release Notes
+* `npm run test`
 
-Users appreciate release notes as you update your extension.
+## Linting
 
-### 1.0.0
+* `npm run lint`
 
-Initial release of ...
+## License
 
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+AltWalker Model Visualizer is licensed under the GNU General Public License v3.0.
