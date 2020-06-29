@@ -7,6 +7,7 @@ export function activate(context: vscode.ExtensionContext) {
 	const provider = new ModelProvider();
 	let panel: vscode.WebviewPanel | undefined = undefined;
 	const iconDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'images', 'icon.png'));
+	const extensionPath = vscode.Uri.file(context.extensionPath);
 
 	let disposable: any = vscode.commands.registerCommand('extension.launch', () => {
 
@@ -32,8 +33,10 @@ export function activate(context: vscode.ExtensionContext) {
 			);
 		}
 
+		const extensionUri = panel.webview.asWebviewUri(extensionPath);
+
 		panel.iconPath = iconDiskPath;
-		panel.webview.html = provider.provideTextDocumentContent();
+		panel.webview.html = provider.provideTextDocumentContent(extensionUri);
 
 		vscode.window.onDidChangeActiveTextEditor(e => {
 			var editor = vscode.window.activeTextEditor;

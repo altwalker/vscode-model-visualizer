@@ -1,10 +1,15 @@
 import * as vscode from "vscode";
+import * as path from 'path';
 
 export class ModelProvider implements vscode.TextDocumentContentProvider {
     private models = "{ 'name': 'Default Models', 'models': [{'name': 'DefaultModel', 'generator': 'random(never)', 'startElementId': 'v0', 'vertices': [{'id': 'v0', 'name': 'start_vertex'},{'id': 'v1', 'name': 'state_a'}, {'id': 'v2', 'name': 'state_b'}],'edges': [{'id': 'e0', 'name': 'action_a', 'sourceVertexId': 'v0', 'targetVertexId': 'v1'},{'id': 'e1','name': 'action_b','sourceVertexId': 'v0','targetVertexId': 'v2'}]}]}";
 
-    public provideTextDocumentContent() {
+    public provideTextDocumentContent(extensionUri: vscode.Uri) {
         const editor = vscode.window.activeTextEditor;
+        const d3LibraryPath = extensionUri.toString() + path.sep + 'node_modules' + path.sep + 'd3' + path.sep + 'dist' + path.sep + 'd3.js';
+        const dagreD3LibrabryPath = extensionUri.toString() + path.sep + 'node_modules' + path.sep + 'dagre-d3' + path.sep + 'dist' + path.sep + 'dagre-d3.js';
+        const vueLibraryPath = extensionUri.toString() + path.sep + 'node_modules' + path.sep + 'vue' + path.sep + 'dist' + path.sep + 'vue.js';
+        const d3LegendLibraryPath = extensionUri.toString() + path.sep + 'node_modules' + path.sep + 'd3-svg-legend' + path.sep + 'd3-legend.js';
         if (editor) {
             if (editor.document.languageId !== "json"){
                 return `
@@ -67,12 +72,14 @@ export class ModelProvider implements vscode.TextDocumentContentProvider {
                         <body>
                             <div id="legend"></div>
                             <div id="visualizer"></div>
-                            <!-- D3, DagreD3 and D3 Legend -->
-                            <script src="https://d3js.org/d3.v5.js"></script>
-                            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dagre-d3/0.6.3/dagre-d3.min.js"></script>
-                            <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.js"></script>
+                            <!-- D3 -->
+                            <script src=${d3LibraryPath}></script>
+                            <!-- DagreD3 -->
+                            <script src=${dagreD3LibrabryPath}></script>
+                            <!-- D3 Legend -->
+                            <script src=${d3LegendLibraryPath}></script>
                             <!-- Vue JS -->
-                            <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+                            <script src=${vueLibraryPath}></script>
                             <!-- Model-Visualizer -->
                             <script src="https://altom.gitlab.io/altwalker/model-visualizer/build/model-visualizer.js"></script>
                             <script>
