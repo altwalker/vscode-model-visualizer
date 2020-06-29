@@ -40,26 +40,32 @@ export function activate(context: vscode.ExtensionContext) {
 			if (editor) {
 				if (editor.document.languageId === 'json') {
 					if (panel) {
-						var models = JSON.parse(editor.document.getText());
-						panel.webview.postMessage({ command: 'newModel', model: models});
+						try {
+							var models = JSON.parse(editor.document.getText());
+							panel.webview.postMessage({ command: 'newModel', model: models});
+						} catch (error) {
+							panel.webview.postMessage({ command: 'error', errorMessage: error.message, errorName: error.name});
+						}
 					}
 				}
 			}
 		});
-
 
 		vscode.workspace.onDidChangeTextDocument(e => {
 			var editor = vscode.window.activeTextEditor;
 			if (editor) {
 				if (editor.document.languageId === 'json') {
 					if (panel) {
-						var models = JSON.parse(editor.document.getText());
-						panel.webview.postMessage({ command: 'newModel', model: models});
+						try {
+							var models = JSON.parse(editor.document.getText());
+							panel.webview.postMessage({ command: 'newModel', model: models});
+						} catch (error) {
+							panel.webview.postMessage({ command: 'error', errorMessage: error.message, errorName: error.name});
+						}
 					}
 				}
 			}
 		});
-
 
 		panel.onDidDispose(() => {
 			panel = undefined;

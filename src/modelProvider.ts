@@ -2,6 +2,14 @@ import * as vscode from "vscode";
 
 export class ModelProvider implements vscode.TextDocumentContentProvider {
     private models = "{ 'name': 'Default Models', 'models': [{'name': 'DefaultModel', 'generator': 'random(never)', 'startElementId': 'v0', 'vertices': [{'id': 'v0', 'name': 'start_vertex'},{'id': 'v1', 'name': 'state_a'}, {'id': 'v2', 'name': 'state_b'}],'edges': [{'id': 'e0', 'name': 'action_a', 'sourceVertexId': 'v0', 'targetVertexId': 'v1'},{'id': 'e1','name': 'action_b','sourceVertexId': 'v0','targetVertexId': 'v2'}]}]}";
+    private errorMessage = "";
+    private errorName = "";
+
+    private resetErrors() {
+        this.errorMessage = "";
+        this.errorName = "";
+    }
+
 
     public provideTextDocumentContent() {
         const editor = vscode.window.activeTextEditor;
@@ -12,7 +20,13 @@ export class ModelProvider implements vscode.TextDocumentContentProvider {
                         <h3>Active editor does not show a json document.<h3>
                     <body>`;
             } else {
-                this.models = editor.document.getText();
+                try {
+                    JSON.parse(editor.document.getText());
+                    this.models = editor.document.getText();
+                } catch (error) {
+                    this.errorMessage = error.message.toString();
+                    this.errorName = error.name.toString();
+                }
             }
         }
         return `<!DOCTYPE html>
@@ -81,31 +95,38 @@ export class ModelProvider implements vscode.TextDocumentContentProvider {
                                 let errorTypeElement = null;
                                 let errorMessageElement = null;
 
+                                function createErrorDiv(errorName, errorMessage) {
+                                    if (errorDiv == null) {
+                                        errorDiv = document.createElement("div");
+                                        errorDiv.className = 'error';
+                                        errorTypeElement = document.createElement("h1");
+                                        errorMessageElement = document.createElement("p");
+                                        var errorType = document.createTextNode(errorName);
+                                        var errorMessage = document.createTextNode(errorMessage);
+                                        errorTypeElement.appendChild(errorType);
+                                        errorMessageElement.appendChild(errorMessage);
+                                        errorDiv.appendChild(errorTypeElement);
+                                        errorDiv.appendChild(errorMessageElement);
+                                        var visualizerDiv = document.getElementById("visualizer");
+                                        document.body.insertBefore(errorDiv, visualizerDiv);
+                                    } else {
+                                        errorTypeElement.innerHTML = errorName;
+                                        errorMessageElement.innerHTML = errorMessage;
+                                    }
+                                }
+
                                 window.onload = function () {
                                     try {
-                                        visualizer = new ModelVisualizer({ container: "visualizer", legendContainer: "legend", models: ${this.models}});
                                         if (errorDiv !== null) {
                                             errorDiv.remove();
                                             errorDiv = null;
+                                        } else if ("${this.errorMessage}" === "") {
+                                            visualizer = new ModelVisualizer({ container: "visualizer", legendContainer: "legend", models: ${this.models}});
+                                        } else {
+                                            createErrorDiv("${this.errorName}", "${this.errorMessage}")
                                         }
                                     } catch(error) {
-                                        if (errorDiv == null) {
-                                            errorDiv = document.createElement("div");
-                                            errorDiv.className = 'error';
-                                            errorTypeElement = document.createElement("h1");
-                                            errorMessageElement = document.createElement("p");
-                                            var errorType = document.createTextNode(error.name);
-                                            var errorMessage = document.createTextNode(error.message);
-                                            errorTypeElement.appendChild(errorType);
-                                            errorMessageElement.appendChild(errorMessage);
-                                            errorDiv.appendChild(errorTypeElement);
-                                            errorDiv.appendChild(errorMessageElement);
-                                            var visualizerDiv = document.getElementById("visualizer");
-                                            document.body.insertBefore(errorDiv, visualizerDiv);
-                                        } else {
-                                            errorTypeElement.innerHTML = error.name;
-                                            errorMessageElement.innerHTML = error.message;
-                                        }
+                                        createErrorDiv(error.name, error.message);
                                     }
                                 };
 
@@ -118,30 +139,23 @@ export class ModelProvider implements vscode.TextDocumentContentProvider {
                                     switch (message.command) {
                                         case 'newModel':
                                             try {
-                                                visualizer.setModels(message.model);
+                                                ${this.resetErrors()};
                                                 if (errorDiv !== null) {
                                                     errorDiv.remove();
                                                     errorDiv = null;
                                                 }
-                                            } catch(error) {
-                                                if (errorDiv == null) {
-                                                    errorDiv = document.createElement("div");
-                                                    errorDiv.className = 'error';
-                                                    errorTypeElement = document.createElement("h1");
-                                                    errorMessageElement = document.createElement("p");
-                                                    var errorType = document.createTextNode(error.name);
-                                                    var errorMessage = document.createTextNode(error.message);
-                                                    errorTypeElement.appendChild(errorType);
-                                                    errorMessageElement.appendChild(errorMessage);
-                                                    errorDiv.appendChild(errorTypeElement);
-                                                    errorDiv.appendChild(errorMessageElement);
-                                                    var visualizerDiv = document.getElementById("visualizer");
-                                                    document.body.insertBefore(errorDiv, visualizerDiv);
+                                                if (visualizer === null) {
+                                                    visualizer = new ModelVisualizer({ container: "visualizer", legendContainer: "legend", models: message.model});
                                                 } else {
-                                                    errorTypeElement.innerHTML = error.name;
-                                                    errorMessageElement.innerHTML = error.message;
+                                                    visualizer.setModels(message.model);
                                                 }
+                                            } catch(error) {
+                                                createErrorDiv(error.name, error.message);
                                             }
+                                            break;
+                                        case 'error':
+                                            createErrorDiv(message.errorName, message.errorMessage);
+                                            break;
                                         }
                                 });
                             </script>
