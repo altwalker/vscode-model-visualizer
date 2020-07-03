@@ -1,9 +1,11 @@
-# Change Log
-
-All notable changes to the "altwalker-model-visualizer" extension will be documented in this file.
-
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
 ## [Unreleased]
 
-- Initial release
+- Add support for theming with VS Code's current theme.
+
+- Add support for Visualizer Settings(e.g. vertex separation, edge separation, rank separation, graph direction).
+
+## [0.0.1] - 2020-07-02
+
+### Added
+
+- Preview of AltWalker or GraphWalker models on side panel (Windows & Linux: ctrl+shift+v, MacOS: cmd+shift+v)

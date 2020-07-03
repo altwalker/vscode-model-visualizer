@@ -6,25 +6,27 @@ A Visual Studio Code extension for visualizing and editing JSON models. It expec
 
 [GraphWalker](http://graphwalker.github.io/) is a Model-Based testing tool. It reads models in the shape of directed graphs, and generates test paths from these graphs.
 
-![Screenshot](/images/model.png)
+<img src=https://gitlab.com/altom/altwalker/extensions/vscode-model-visualizer/-/raw/master/images/model.png width=734 height=413>
 
-## Required Dependencies
+## Get started
 
-* [D3](https://d3js.org/)
-* [dagre-d3](https://github.com/dagrejs/dagre-d3)
-* [d3-legend](https://d3-legend.susielu.com/)
-* [Vue.js](https://vuejs.org/)
-* [Model-Visualizer](https://altom.gitlab.io/altwalker/model-visualizer/build/model-visualizer.js)
+1. Install Visual Studio Code 1.0.0 or higher
+2. Launch Code
+3. From the command palette `Ctrl+Shift+P` (Windows & Linux) or `Cmd+Shift+P` (MacOS)
+4. Select Install Extension
+5. Type `AltWalker Model Visualizer`
+6. Choose the extension
+7. Reload Visual Studio Code
 
 ## Features
 
-* `Preview on side panel (ctrl+shift+v)`: Open Altwalker Model Visualizer on side panel. With this feature, you can easily check your [AltWalker](https://altom.gitlab.io/altwalker/altwalker/) or [GraphWalker](http://graphwalker.github.io/) model.
+* `Preview on side panel (Windows & Linux: ctrl+shift+v, MacOS: cmd+shift+v)`: Easily check your [AltWalker](https://altom.gitlab.io/altwalker/altwalker/) or [GraphWalker](http://graphwalker.github.io/) models.
 
-![feature](images/start.gif)
+<img src=https://gitlab.com/altom/altwalker/extensions/vscode-model-visualizer/-/raw/master/images/start.gif width=734 height=413>
 
 ## Models Format
 
-An example can be found [here](./model.json).
+An example of json model can be found [here](https://gitlab.com/altom/altwalker/extensions/vscode-model-visualizer/-/blob/11-publish-extension/model.json).
 
 For more informations you can visit [AltWalker documentation](https://altom.gitlab.io/altwalker/altwalker/) or [Graphwalker documentation](https://graphwalker.github.io/).
 
@@ -67,22 +69,14 @@ For help with modeling you can read our guide [here](https://altom.gitlab.io/alt
 
 Join our Gitter chat room [here](https://gitter.im/altwalker/community) to chat with us or with other members of the community.
 
-## Developement Setup
+## The extension uses the following libraries
 
-* `git clone https://gitlab.com/altom/altwalker/extensions/vscode-model-visualizer`
-* `cd vscode-model-visualizer`
-* `npm install`
-* `code .`
-* `F5` to start
-
-## Running Tests
-
-* `npm run test`
-
-## Linting
-
-* `npm run lint`
+* [D3](https://d3js.org/)
+* [d3-legend](https://d3-legend.susielu.com/)
+* [dagre-d3](https://github.com/dagrejs/dagre-d3)
+* [Model-Visualizer](https://altom.gitlab.io/altwalker/model-visualizer/index.html)
+* [Vue.js](https://vuejs.org/)
 
 ## License
 
-AltWalker Model Visualizer is licensed under the GNU General Public License v3.0.
+AltWalker Model Visualizer is licensed under the [GNU](https://gitlab.com/altom/altwalker/extensions/vscode-model-visualizer/-/blob/11-publish-extension/LICENSE) General Public License v3.0.

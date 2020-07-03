@@ -4,8 +4,11 @@
 	"description": "A library for displaying JSON models for AltWalker and GraphWalker.",
 	"version": "0.0.1",
 	"engines": {
-		"vscode": "^1.44.0"
+		"vscode": "^1.0.0"
 	},
+	"publisher": "Altom",
+	"license": "https://gitlab.com/altom/altwalker/extensions/vscode-model-visualizer/-/blob/master/LICENSE",
+	"homepage": "https://gitlab.com/altom/altwalker/extensions/vscode-model-visualizer/-/blob/master/README.md",
 	"repository": {
 		"type": "git",
 		"url": "https://gitlab.com/altom/altwalker/extensions/vscode-model-visualizer"
@@ -34,7 +37,7 @@
 		"Formatters"
 	],
 	"activationEvents": [
-		"onCommand:extension.launch"
+		"onCommand:altwalker.launch"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -97,17 +100,13 @@
 		],
 		"commands": [
 			{
-				"command": "extension.launch",
+				"command": "altwalker.launch",
 				"title": "Launch Model Visualizer"
-			},
-			{
-				"command": "extension.insertSnippet",
-				"title": "Insert Default Model Snippet"
 			}
 		],
 		"keybindings": [
 			{
-				"command": "extension.launch",
+				"command": "altwalker.launch",
 				"key": "ctrl+shift+v",
 				"mac": "cmd+shift+v"
 			}
@@ -115,7 +114,7 @@
 		"menus": {
 			"editor/context": [
 				{
-					"command": "extension.launch",
+					"command": "altwalker.launch",
 					"when": "resourceLangId == json"
 				}
 			]
@@ -133,7 +132,7 @@
 		"@types/glob": "^7.1.1",
 		"@types/mocha": "^7.0.2",
 		"@types/node": "^13.11.0",
-		"@types/vscode": "^1.44.0",
+		"@types/vscode": "^1.0.0",
 		"@typescript-eslint/eslint-plugin": "^2.26.0",
 		"@typescript-eslint/parser": "^2.26.0",
 		"eslint": "^6.8.0",
