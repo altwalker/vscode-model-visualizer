@@ -9,7 +9,7 @@ export function activate(context: vscode.ExtensionContext) {
 	const iconDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'images', 'icon.png'));
 	const extensionPath = vscode.Uri.file(context.extensionPath);
 
-	let disposable: any = vscode.commands.registerCommand('extension.launch', () => {
+	let disposable: any = vscode.commands.registerCommand('altwalker.launch', () => {
 
 		let viewColumn: vscode.ViewColumn;
 
