@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import * as path from 'path';
 
 export class ModelProvider implements vscode.TextDocumentContentProvider {
-    private models = "{ 'name': 'Default Models', 'models': [{'name': 'DefaultModel', 'generator': 'random(never)', 'startElementId': 'v0', 'vertices': [{'id': 'v0', 'name': 'start_vertex'},{'id': 'v1', 'name': 'state_a'}, {'id': 'v2', 'name': 'state_b'}],'edges': [{'id': 'e0', 'name': 'action_a', 'sourceVertexId': 'v0', 'targetVertexId': 'v1'},{'id': 'e1','name': 'action_b','sourceVertexId': 'v0','targetVertexId': 'v2'}]}]}";
+    private models = "";
     private errorMessage = "";
     private errorName = "";
 
@@ -19,19 +19,12 @@ export class ModelProvider implements vscode.TextDocumentContentProvider {
         const vueLibraryPath = extensionUri.toString() + path.sep + 'node_modules' + path.sep + 'vue' + path.sep + 'dist' + path.sep + 'vue.js';
         const d3LegendLibraryPath = extensionUri.toString() + path.sep + 'node_modules' + path.sep + 'd3-svg-legend' + path.sep + 'd3-legend.js';
         if (editor) {
-            if (editor.document.languageId !== "json"){
-                return `
-                    <body>
-                        <h3>Active editor does not show a json document.<h3>
-                    <body>`;
-            } else {
-                try {
-                    JSON.parse(editor.document.getText());
-                    this.models = editor.document.getText();
-                } catch (error) {
-                    this.errorMessage = error.message.toString();
-                    this.errorName = error.name.toString();
-                }
+            try {
+                JSON.parse(editor.document.getText());
+                this.models = editor.document.getText();
+            } catch (error) {
+                this.errorMessage = error.message.toString();
+                this.errorName = error.name.toString();
             }
         }
         return `<!DOCTYPE html>

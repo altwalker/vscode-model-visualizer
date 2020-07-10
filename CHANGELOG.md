@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+- Fix the extension key binding override the Toggle Markdown Preview key binding.
+
 - Add support for theming with VS Code's current theme.
 
 - Add support for Visualizer Settings(e.g. vertex separation, edge separation, rank separation, graph direction).
