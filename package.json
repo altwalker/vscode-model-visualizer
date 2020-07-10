@@ -108,7 +108,8 @@
 			{
 				"command": "altwalker.launch",
 				"key": "ctrl+shift+v",
-				"mac": "cmd+shift+v"
+				"mac": "cmd+shift+v",
+				"when": "editorLangId == json"
 			}
 		],
 		"menus": {
