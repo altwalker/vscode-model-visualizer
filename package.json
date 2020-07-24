@@ -2,7 +2,7 @@
 	"name": "altwalker-model-visualizer",
 	"displayName": "AltWalker Model Visualizer",
 	"description": "A library for displaying JSON models for AltWalker and GraphWalker.",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"engines": {
 		"vscode": "^1.0.0"
 	},
