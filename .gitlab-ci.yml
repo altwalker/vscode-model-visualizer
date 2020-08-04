@@ -1,14 +1,14 @@
 stages:
   - dependencies
   - lint
+  - test
+  - build
 
 image: node:14.3.0-stretch
 
 cache:
-  key: "$CI_PIPELINE_ID"
   paths:
     - node_modules
-    - bower_components
 
 install_dependencies:
   stage: dependencies
@@ -19,5 +19,27 @@ install_dependencies:
 lint:
   stage: lint
   script:
+    - npm ci
     - npm run lint
 
+integration_test:
+  stage: test
+  variables:
+    DISPLAY: ':99.0'
+  before_script:
+    - apt-get update
+    - apt-get install -y xvfb libxtst6 libnss3 libgtk-3-0 libxss1 libasound2 libsecret-1-0
+    - /usr/bin/Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+  script:
+    - npm run test
+
+build:
+  stage: build
+  artifacts:
+    paths:
+      - '*.vsix'
+    expire_in: 1 year
+  script:
+    - npx vsce package
+  only:
+    - master

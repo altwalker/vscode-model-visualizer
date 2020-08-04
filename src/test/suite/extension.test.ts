@@ -30,31 +30,31 @@ suite('Extension Test Suite', () => {
 		});
 	}
 
+	test('Start extension', async() => {
+		vscode.commands.executeCommand('altwalker.launch');
+		assert.equal(vscode.window.state.focused, true, 'The extension is not started.');
+	});
+
 	test('Test provider good json file', async() => {
 		const extensionPath = vscode.Uri.file(path.resolve(__dirname, '../../../'));
 		const uriModel = vscode.Uri.file(path.join(__dirname + testFolderLocation + 'goodModel.json'));
 		const document = await vscode.workspace.openTextDocument(uriModel);
 		const editor = await vscode.window.showTextDocument(document);
 		await sleep(500);
-		const good_json_file = provider.provideTextDocumentContent(extensionPath);
+		const json_file = provider.provideTextDocumentContent(extensionPath);
 		vscode.commands.executeCommand('altwalker.launch');
-		assert.equal(good_json_file.includes(editor.document.getText()), true, 'The provider do not return the expected result');
+		assert.equal(json_file.includes(editor.document.getText()), true, 'The provider do not return the expected result.');
 	});
 
-	test('Test provider bad input file', async() => {
+	test('Test provider bad json file', async() => {
 		const extensionPath = vscode.Uri.file(path.resolve(__dirname, '../../../'));
-		const uri = vscode.Uri.file(path.join(__dirname + testFolderLocation + 'notJson.html'));
-		const document = await vscode.workspace.openTextDocument(uri);
-		await vscode.window.showTextDocument(document);
+		const uriModel = vscode.Uri.file(path.join(__dirname + testFolderLocation + 'badModel.json'));
+		const document = await vscode.workspace.openTextDocument(uriModel);
+		const editor = await vscode.window.showTextDocument(document);
 		await sleep(500);
-		const bad_editor_file = provider.provideTextDocumentContent(extensionPath);
+		const json_file = provider.provideTextDocumentContent(extensionPath);
 		vscode.commands.executeCommand('altwalker.launch');
-		assert.equal(bad_editor_file.includes('Active editor does not show a json document.'), true, 'The provider do not return the expected result');
-	});
-
-	test('Start extension with default model', async() => {
-		vscode.commands.executeCommand('altwalker.launch');
-		assert.equal(vscode.window.state.focused, true, 'The extension is not focused after start');
+		assert.equal(json_file.includes(editor.document.getText()), true, 'The provider do not return the expected result.');
 	});
 
 });
