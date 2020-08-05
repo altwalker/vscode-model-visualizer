@@ -42,7 +42,81 @@
 	"main": "./out/extension.js",
 	"contributes": {
 		"configuration": {
-			"title": "AltWalker Model Visualizer"
+			"title": "AltWalker Model Visualizer",
+			"properties" : {
+				"altwalker.layout.rankdir": {
+					"type": "string",
+					"enum": [
+						"Top-Bottom",
+						"Bottom-Top",
+						"Left-Right",
+						"Right-Left"
+					],
+					"default": "Top-Bottom",
+					"description": "Direction for rank nodes."
+				},
+				"altwalker.layout.align": {
+					"type": "string",
+					"enum": [
+						"Up-Left",
+						"Up-Right",
+						"Down-Left",
+						"Down-Right"
+					],
+					"default": "Down-Right",
+					"description": "Alignment for rank nodes."
+				},
+				"altwalker.layout.nodesep": {
+					"type": "number",
+					"default": 1,
+					"maximum": 500,
+					"minimum": 1,
+					"description": "Number of pixels that separate nodes horizontally in the layout."
+				},
+				"altwalker.layout.edgesep": {
+					"type": "number",
+					"default": 10,
+					"maximum": 500,
+					"minimum": 1,
+					"description": "Number of pixels that separate edges horizontally in the layout."
+				},
+				"altwalker.layout.ranksep": {
+					"type": "number",
+					"default": 50,
+					"maximum": 500,
+					"minimum": 1,
+					"description": "Number of pixels between each rank in the layout."
+				},
+				"altwalker.layout.marginx": {
+					"type": "number",
+					"default": 1,
+					"maximum": 500,
+					"minimum": 1,
+					"description": "Number of pixels to use as a margin around the left and right of the graph."
+				},
+				"altwalker.layout.marginy": {
+					"type": "number",
+					"default": 1,
+					"maximum": 500,
+					"minimum": 1,
+					"description": "Number of pixels to use as a margin around the top and bottom of the graph."
+				},
+				"altwalker.layout.ranker": {
+					"type": "string",
+					"enum": [
+						"Longest Path",
+						"Tight Tree",
+						"Network Simplex"
+					],
+					"default": "Network Simplex",
+					"description": "Type of algorithm to assigns a rank to each node in the input graph."
+				},
+				"altwalker.layout.legend": {
+					"type": "boolean",
+					"default": true,
+					"description": "Show legend."
+				}
+			}
 		},
 		"snippets": [
 			{

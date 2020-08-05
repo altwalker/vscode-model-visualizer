@@ -54,6 +54,37 @@ export function activate(context: vscode.ExtensionContext) {
 			}
 		});
 
+		vscode.workspace.onDidChangeConfiguration(e => {
+			if (panel) {
+				try {
+					var configuration = vscode.workspace.getConfiguration('altwalker.layout');
+					var ranker = provider.getRanker(configuration.get('ranker'));
+					var rankdir = provider.getRankdir(configuration.get('rankdir'));
+					var align = provider.getAlign(configuration.get('align'));
+					var marginx = configuration.get('marginx');
+					var nodesep = configuration.get('nodesep');
+					var edgesep = configuration.get('edgesep');
+					var ranksep = configuration.get('ranksep');
+					var marginy = configuration.get('marginy');
+					var legend = configuration.get('legend');
+					let graphLayoutOptions = {
+						'rankdir': rankdir,
+						'align': align,
+						'nodesep': nodesep,
+						'edgesep': edgesep,
+						'ranksep': ranksep,
+						'marginx': marginx,
+						'marginy': marginy,
+						'ranker': ranker,
+						'legend': legend
+					};
+					panel.webview.postMessage({ command: 'newConfiguration', configuration: graphLayoutOptions});
+				} catch (error) {
+					panel.webview.postMessage({ command: 'error', errorMessage: error.message, errorName: error.name});
+				}
+			}
+		});
+
 		vscode.workspace.onDidChangeTextDocument(e => {
 			var editor = vscode.window.activeTextEditor;
 			if (editor) {

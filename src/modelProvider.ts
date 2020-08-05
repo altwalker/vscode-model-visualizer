@@ -1,26 +1,81 @@
 import * as vscode from "vscode";
 import * as path from 'path';
+import { type } from "os";
+
 
 export class ModelProvider implements vscode.TextDocumentContentProvider {
     private models = "";
     private errorMessage = "";
     private errorName = "";
+    private rankdirMap = {
+        "Top-Bottom": "TB",
+        "Bottom-Top": "BT",
+        "Left-Right": "LR",
+        "Right-Left": "RL",
+    };
+    private alignMap = {
+        "Up-Left": "UL",
+        "Up-Right": "UR",
+        "Down-Left": "DL",
+        "Down-Right": "DR"
+    };
+    private rankerMap = {
+        "Longest Path": "longest-path",
+        "Tight Tree": "tight-tree",
+        "Network Simplex": "network-simplex"
+    };
 
     private resetErrors() {
         this.errorMessage = "";
         this.errorName = "";
     }
 
+    private hasKey<O>(obj: O, key: keyof any): key is keyof O {
+        return key in obj;
+    }
+
+    public getRankdir(rankdir: any) {
+        if (this.hasKey(this.rankdirMap, rankdir)) {
+            return this.rankdirMap[rankdir];
+        }
+        return this.rankdirMap["Top-Bottom"];
+    }
+
+    public getAlign(align: any) {
+        if (this.hasKey(this.alignMap, align)) {
+            return this.alignMap[align];
+        }
+        return this.alignMap["Up-Left"];
+    }
+
+    public getRanker(ranker: any) {
+        if (this.hasKey(this.rankerMap, ranker)) {
+            return this.rankerMap[ranker];
+        }
+        return this.rankerMap["Network Simplex"];
+    }
 
     public provideTextDocumentContent(extensionUri: vscode.Uri) {
         const editor = vscode.window.activeTextEditor;
+
         const d3LibraryPath = extensionUri.toString() + path.sep + 'node_modules' + path.sep + 'd3' + path.sep + 'dist' + path.sep + 'd3.js';
         const dagreD3LibrabryPath = extensionUri.toString() + path.sep + 'node_modules' + path.sep + 'dagre-d3' + path.sep + 'dist' + path.sep + 'dagre-d3.js';
         const vueLibraryPath = extensionUri.toString() + path.sep + 'node_modules' + path.sep + 'vue' + path.sep + 'dist' + path.sep + 'vue.js';
         const d3LegendLibraryPath = extensionUri.toString() + path.sep + 'node_modules' + path.sep + 'd3-svg-legend' + path.sep + 'd3-legend.js';
+
+        const configuration = vscode.workspace.getConfiguration('altwalker.layout');
+        const layoutRankdir = this.getRankdir(configuration.get('rankdir'));
+        const layoutAlign = this.getAlign(configuration.get('align'));
+        const layoutRanker = this.getRanker(configuration.get('ranker'));
+        const layoutNodsep = configuration.get('nodesep');
+        const layoutEdgesep = configuration.get('edgesep');
+        const layoutRanksep = configuration.get('ranksep');
+        const layoutMarginx = configuration.get('marginx');
+        const layoutMarginy = configuration.get('marginy');
+        const layoutLegend = configuration.get('legend');
+
         if (editor) {
             try {
-                JSON.parse(editor.document.getText());
                 this.models = editor.document.getText();
             } catch (error) {
                 this.errorMessage = error.message.toString();
@@ -74,6 +129,9 @@ export class ModelProvider implements vscode.TextDocumentContentProvider {
                             svg {
                                 vertical-align: top;
                             }
+                            .hide {
+                                display: none;
+                            }
                             </style>
                         </head>
                         <body>
@@ -94,6 +152,7 @@ export class ModelProvider implements vscode.TextDocumentContentProvider {
                                 let errorDiv = null;
                                 let errorTypeElement = null;
                                 let errorMessageElement = null;
+                                let showLegend = ${layoutLegend};
 
                                 function createErrorDiv(errorName, errorMessage) {
                                     if (errorDiv == null) {
@@ -121,7 +180,17 @@ export class ModelProvider implements vscode.TextDocumentContentProvider {
                                             errorDiv.remove();
                                             errorDiv = null;
                                         } else if ("${this.errorMessage}" === "") {
-                                            visualizer = new ModelVisualizer({ container: "visualizer", legendContainer: "legend", models: ${this.models}});
+                                            if (${layoutLegend}) {
+                                                visualizer = new ModelVisualizer({ container: "visualizer", legendContainer: "legend", models: ${this.models},
+                                                                                   graphLayoutOptions: {rankdir: "${layoutRankdir}", align: "${layoutAlign}",
+                                                                                   nodesep: "${layoutNodsep}", edgesep: "${layoutEdgesep}", ranksep: "${layoutRanksep}",
+                                                                                   marginx: "${layoutMarginx}", marginy: "${layoutMarginy}", ranker: "${layoutRanker}"}});
+                                            } else {
+                                                visualizer = new ModelVisualizer({ container: "visualizer", models: ${this.models},
+                                                                                   graphLayoutOptions: {rankdir: "${layoutRankdir}", align: "${layoutAlign}",
+                                                                                   nodesep: "${layoutNodsep}", edgesep: "${layoutEdgesep}", ranksep: "${layoutRanksep}",
+                                                                                   marginx: "${layoutMarginx}", marginy: "${layoutMarginy}", ranker: "${layoutRanker}"}});
+                                            }
                                         } else {
                                             createErrorDiv("${this.errorName}", "${this.errorMessage}")
                                         }
@@ -149,6 +218,23 @@ export class ModelProvider implements vscode.TextDocumentContentProvider {
                                                 } else {
                                                     visualizer.setModels(message.model);
                                                 }
+                                            } catch(error) {
+                                                createErrorDiv(error.name, error.message);
+                                            }
+                                            break;
+                                        case 'newConfiguration':
+                                            try {
+                                                if (showLegend != message.configuration.legend) {
+                                                    if (message.configuration.legend) {
+                                                        legendDiv = document.getElementById("legend");
+                                                        legendDiv.classList.remove("hide");
+                                                    } else {
+                                                        legendDiv = document.getElementById("legend");
+                                                        legendDiv.className = 'hide';
+                                                    }
+                                                }
+                                                showLegend = message.configuration.legend;
+                                                visualizer.setGraphLayoutOptions(message.configuration);
                                             } catch(error) {
                                                 createErrorDiv(error.name, error.message);
                                             }
