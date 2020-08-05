@@ -40,6 +40,6 @@ build:
       - '*.vsix'
     expire_in: 1 year
   script:
-    - npx vsce package
+    - npx vsce package --baseContentUrl=https://gitlab.com/altom/altwalker/extensions/vscode-model-visualizer/-/raw/master
   only:
     - master
