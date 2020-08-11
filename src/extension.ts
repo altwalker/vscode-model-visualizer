@@ -1,15 +1,18 @@
 import * as vscode from 'vscode';
 import { ModelProvider } from './modelProvider';
 import * as path from 'path';
+import { getRankdir, getAlign, getRanker } from './utils';
 
 export function activate(context: vscode.ExtensionContext) {
-
 	const provider = new ModelProvider();
 	let panel: vscode.WebviewPanel | undefined = undefined;
 	const iconDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'images', 'icon.png'));
-	const extensionPath = vscode.Uri.file(context.extensionPath);
+	const nodeModulesPath = vscode.Uri.file(
+		path.join(context.extensionPath, 'node_modules')
+	);
+	const extensionTitle = "AltWalker Model Visualier";
 
-	let disposable: any = vscode.commands.registerCommand('altwalker.launch', () => {
+	let disposable: any = vscode.commands.registerCommand('altwalker.launch', (document) => {
 
 		let viewColumn: vscode.ViewColumn;
 
@@ -24,8 +27,8 @@ export function activate(context: vscode.ExtensionContext) {
 		} else {
 			panel = vscode.window.createWebviewPanel(
 				'modelVisualizer',
-				'AltWalker Model Visualizer',
-				viewColumn,
+				extensionTitle,
+				{ preserveFocus: true, viewColumn: viewColumn },
 				{
 					enableScripts: true,
 					retainContextWhenHidden: true
@@ -33,19 +36,46 @@ export function activate(context: vscode.ExtensionContext) {
 			);
 		}
 
-		const extensionUri = panel.webview.asWebviewUri(extensionPath);
+		const nodeModulesUri = panel.webview.asWebviewUri(nodeModulesPath);
 
 		panel.iconPath = iconDiskPath;
-		panel.webview.html = provider.provideTextDocumentContent(extensionUri);
+
+		if (document) {
+			vscode.workspace.openTextDocument(document.fsPath).then((document) => {
+				if (panel) {
+					const documentText = document.getText();
+					const documentName = document.fileName;
+					if (documentText.length === 0) {
+						panel.title = documentName.split(path.sep).pop() + " | " + extensionTitle;
+						panel.webview.html = provider.provideTextDocumentContent(nodeModulesUri, "{'name': 'Default Models', 'models':''}");
+					} else {
+						panel.title = documentName.split(path.sep).pop() + " | " + extensionTitle;
+						panel.webview.html = provider.provideTextDocumentContent(nodeModulesUri, documentText);
+					}
+				}
+			});
+		} else {
+			const focusedEditor = vscode.window.activeTextEditor;
+			if (focusedEditor) {
+				const focuedEditorText = focusedEditor.document.getText();
+				const focusedEditorName = focusedEditor.document.fileName;
+				panel.title = focusedEditorName.split(path.sep).pop() + " | " + extensionTitle;
+				panel.webview.html = provider.provideTextDocumentContent(nodeModulesUri, focuedEditorText);
+			} else {
+				panel.webview.html = provider.provideTextDocumentContent(nodeModulesUri, "{'name': 'Default Models', 'models':''}");
+			}
+		}
 
 		vscode.window.onDidChangeActiveTextEditor(e => {
-			var editor = vscode.window.activeTextEditor;
+			const editor = vscode.window.activeTextEditor;
 			if (editor) {
+				const editorText = editor.document.getText();
+				const editorName = editor.document.fileName;
 				if (editor.document.languageId === 'json') {
 					if (panel) {
 						try {
-							var models = JSON.parse(editor.document.getText());
-							panel.webview.postMessage({ command: 'newModel', model: models});
+							panel.title = editorName.split(path.sep).pop() + " | " + extensionTitle;
+							panel.webview.postMessage({ command: 'newModel', model: JSON.parse(editorText)});
 						} catch (error) {
 							panel.webview.postMessage({ command: 'error', errorMessage: error.message, errorName: error.name});
 						}
@@ -58,9 +88,9 @@ export function activate(context: vscode.ExtensionContext) {
 			if (panel) {
 				try {
 					var configuration = vscode.workspace.getConfiguration('altwalker.layout');
-					var ranker = provider.getRanker(configuration.get('ranker'));
-					var rankdir = provider.getRankdir(configuration.get('rankdir'));
-					var align = provider.getAlign(configuration.get('align'));
+					var ranker = getRanker(configuration.get('ranker'));
+					var rankdir = getRankdir(configuration.get('rankdir'));
+					var align = getAlign(configuration.get('align'));
 					var marginx = configuration.get('marginx');
 					var nodesep = configuration.get('nodesep');
 					var edgesep = configuration.get('edgesep');
@@ -86,13 +116,13 @@ export function activate(context: vscode.ExtensionContext) {
 		});
 
 		vscode.workspace.onDidChangeTextDocument(e => {
-			var editor = vscode.window.activeTextEditor;
+			const editor = vscode.window.activeTextEditor;
 			if (editor) {
+				const editorText = editor.document.getText();
 				if (editor.document.languageId === 'json') {
 					if (panel) {
 						try {
-							var models = JSON.parse(editor.document.getText());
-							panel.webview.postMessage({ command: 'newModel', model: models});
+							panel.webview.postMessage({ command: 'newModel', model: JSON.parse(editorText)});
 						} catch (error) {
 							panel.webview.postMessage({ command: 'error', errorMessage: error.message, errorName: error.name});
 						}
