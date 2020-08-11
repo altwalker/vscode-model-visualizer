@@ -43,7 +43,7 @@
 	"contributes": {
 		"configuration": {
 			"title": "AltWalker Model Visualizer",
-			"properties" : {
+			"properties": {
 				"altwalker.layout.rankdir": {
 					"type": "string",
 					"enum": [
@@ -183,10 +183,16 @@
 				"command": "altwalker.launch",
 				"key": "ctrl+shift+v",
 				"mac": "cmd+shift+v",
-				"when": "editorLangId == json"
+				"when": "editorLangId == json && editorTextFocus"
 			}
 		],
 		"menus": {
+			"explorer/context": [
+				{
+					"command": "altwalker.launch",
+					"when": "resourceLangId == json"
+				}
+			],
 			"editor/context": [
 				{
 					"command": "altwalker.launch",
@@ -204,6 +210,7 @@
 		"test": "node ./out/test/runTest.js"
 	},
 	"devDependencies": {
+		"@types/d3": "^5.7.2",
 		"@types/glob": "^7.1.1",
 		"@types/mocha": "^7.0.2",
 		"@types/node": "^13.11.0",
