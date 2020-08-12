@@ -7,8 +7,8 @@ export function activate(context: vscode.ExtensionContext) {
 	const provider = new ModelProvider();
 	let panel: vscode.WebviewPanel | undefined = undefined;
 	const iconDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'images', 'icon.png'));
-	const nodeModulesPath = vscode.Uri.file(
-		path.join(context.extensionPath, 'node_modules')
+	const rootPath = vscode.Uri.file(
+		path.join(context.extensionPath)
 	);
 	const extensionTitle = "AltWalker Model Visualier";
 
@@ -36,7 +36,7 @@ export function activate(context: vscode.ExtensionContext) {
 			);
 		}
 
-		const nodeModulesUri = panel.webview.asWebviewUri(nodeModulesPath);
+		const rootUri = panel.webview.asWebviewUri(rootPath);
 
 		panel.iconPath = iconDiskPath;
 
@@ -47,10 +47,10 @@ export function activate(context: vscode.ExtensionContext) {
 					const documentName = document.fileName;
 					if (documentText.length === 0) {
 						panel.title = documentName.split(path.sep).pop() + " | " + extensionTitle;
-						panel.webview.html = provider.provideTextDocumentContent(nodeModulesUri, "{'name': 'Default Models', 'models':''}");
+						panel.webview.html = provider.provideTextDocumentContent(rootUri, "{'name': 'Default Models', 'models':''}");
 					} else {
 						panel.title = documentName.split(path.sep).pop() + " | " + extensionTitle;
-						panel.webview.html = provider.provideTextDocumentContent(nodeModulesUri, documentText);
+						panel.webview.html = provider.provideTextDocumentContent(rootUri, documentText);
 					}
 				}
 			});
@@ -60,9 +60,9 @@ export function activate(context: vscode.ExtensionContext) {
 				const focuedEditorText = focusedEditor.document.getText();
 				const focusedEditorName = focusedEditor.document.fileName;
 				panel.title = focusedEditorName.split(path.sep).pop() + " | " + extensionTitle;
-				panel.webview.html = provider.provideTextDocumentContent(nodeModulesUri, focuedEditorText);
+				panel.webview.html = provider.provideTextDocumentContent(rootUri, focuedEditorText);
 			} else {
-				panel.webview.html = provider.provideTextDocumentContent(nodeModulesUri, "{'name': 'Default Models', 'models':''}");
+				panel.webview.html = provider.provideTextDocumentContent(rootUri, "{'name': 'Default Models', 'models':''}");
 			}
 		}
 
