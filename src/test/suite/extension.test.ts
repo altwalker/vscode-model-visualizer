@@ -39,12 +39,24 @@ suite('Extension Test Suite', () => {
 		const editor = await vscode.window.showTextDocument(document);
 		const json_file = provider.provideTextDocumentContent(extensionPath, editor.document.getText());
 		await sleep(500);
-		assert.equal(json_file.includes("vscode-model-visualizer" + path.sep + "d3" + path.sep + "dist" + path.sep + "d3.js"), true, 'The d3 node_module is not loaded.');
-		assert.equal(json_file.includes("vscode-model-visualizer" + path.sep + "dagre-d3" + path.sep + "dist" + path.sep + "dagre-d3.js"), true, 'The dagre-d3 node_module is not loaded.');
-		assert.equal(json_file.includes("vscode-model-visualizer" + path.sep + "d3-svg-legend" + path.sep + "d3-legend.js"), true, 'The d3-legend node_module is not loaded.');
-		assert.equal(json_file.includes("vscode-model-visualizer" + path.sep + "vue" + path.sep + "dist" + path.sep + "vue.js"), true, 'The vue node_module is not loaded.');
+		assert.equal(json_file.includes("vscode-model-visualizer" + path.sep + "node_modules" + path.sep + "d3" + path.sep + "dist" + path.sep + "d3.js"), true, 'The d3 node_module is not loaded.');
+		assert.equal(json_file.includes("vscode-model-visualizer" + path.sep + "node_modules" + path.sep + "dagre-d3" + path.sep + "dist" + path.sep + "dagre-d3.js"), true, 'The dagre-d3 node_module is not loaded.');
+		assert.equal(json_file.includes("vscode-model-visualizer" + path.sep + "node_modules" + path.sep + "d3-svg-legend" + path.sep + "d3-legend.js"), true, 'The d3-legend node_module is not loaded.');
+		assert.equal(json_file.includes("vscode-model-visualizer" + path.sep + "node_modules" + path.sep + "vue" + path.sep + "dist" + path.sep + "vue.js"), true, 'The vue node_module is not loaded.');
 		assert.equal(json_file.includes("model-visualizer.js"), true, 'The model-visualizer.js is not loaded.');
 		assert.equal(json_file.includes("model-visualizer.css"), true, 'The model-visualizer.css is not loaded.');
+		await sleep(500);
+	});
+
+	test('Test css', async() => {
+		await closeAllEditors();
+		const extensionPath = vscode.Uri.file(path.resolve(__dirname, '../../../'));
+		const uriModel = vscode.Uri.file(path.join(__dirname + testFolderLocation + 'goodModel.json'));
+		const document = await vscode.workspace.openTextDocument(uriModel);
+		const editor = await vscode.window.showTextDocument(document);
+		const json_file = provider.provideTextDocumentContent(extensionPath, editor.document.getText());
+		await sleep(500);
+		assert.equal(json_file.includes("vscode-model-visualizer" + path.sep + "css" + path.sep + "app.css"), true, 'The css file is not loaded.');
 		await sleep(500);
 	});
 
