@@ -125,16 +125,13 @@ export class ModelProvider {
                                             errorDiv.remove();
                                             errorDiv = null;
                                         } else if ("${this.errorMessage}" === "") {
-                                            if (${layoutLegend}) {
-                                                visualizer = new ModelVisualizer({ container: "visualizer", legendContainer: "legend", models: ${models},
-                                                                                   graphLayoutOptions: {rankdir: "${layoutRankdir}", align: "${layoutAlign}",
-                                                                                   nodesep: "${layoutNodsep}", edgesep: "${layoutEdgesep}", ranksep: "${layoutRanksep}",
-                                                                                   marginx: "${layoutMarginx}", marginy: "${layoutMarginy}", ranker: "${layoutRanker}"}});
-                                            } else {
-                                                visualizer = new ModelVisualizer({ container: "visualizer", models: ${models},
-                                                                                   graphLayoutOptions: {rankdir: "${layoutRankdir}", align: "${layoutAlign}",
-                                                                                   nodesep: "${layoutNodsep}", edgesep: "${layoutEdgesep}", ranksep: "${layoutRanksep}",
-                                                                                   marginx: "${layoutMarginx}", marginy: "${layoutMarginy}", ranker: "${layoutRanker}"}});
+                                            visualizer = new ModelVisualizer({ container: "visualizer", legendContainer: "legend", models: ${models},
+                                                                               graphLayoutOptions: {rankdir: "${layoutRankdir}", align: "${layoutAlign}",
+                                                                               nodesep: "${layoutNodsep}", edgesep: "${layoutEdgesep}", ranksep: "${layoutRanksep}",
+                                                                               marginx: "${layoutMarginx}", marginy: "${layoutMarginy}", ranker: "${layoutRanker}"}});
+                                            if (!${layoutLegend}) {
+                                                legendDiv = document.getElementById("legend");
+                                                legendDiv.className = 'hide';
                                             }
                                         } else {
                                             createErrorDiv("${this.errorName}", "${this.errorMessage}")
