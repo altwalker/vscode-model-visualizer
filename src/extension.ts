@@ -1,22 +1,23 @@
 import * as vscode from 'vscode';
-import { ModelProvider } from './modelProvider';
 import * as path from 'path';
+import { ModelProvider } from './modelProvider';
 import { getRankdir, getAlign, getRanker } from './utils';
 
 export function activate(context: vscode.ExtensionContext) {
-	const provider = new ModelProvider();
 	let panel: vscode.WebviewPanel | undefined = undefined;
-	const iconDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'images', 'icon.png'));
-	const rootPath = vscode.Uri.file(
-		path.join(context.extensionPath)
-	);
-	const extensionTitle = "AltWalker Model Visualier";
+
+	const provider = new ModelProvider();
+
+	const rootPath = vscode.Uri.file(path.join(context.extensionPath));
+	const iconDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'images', 'icon.svg'));
+
+	const extensionTitle = "AltWalker Model Visualizer";
 
 	let disposable: any = vscode.commands.registerCommand('altwalker.launch', (document) => {
 
 		let viewColumn: vscode.ViewColumn;
 
-		if (vscode.window.activeTextEditor?.viewColumn){
+		if (vscode.window.activeTextEditor?.viewColumn) {
 			viewColumn = vscode.window.activeTextEditor.viewColumn + 1;
 		} else {
 			viewColumn = 1;
@@ -45,6 +46,7 @@ export function activate(context: vscode.ExtensionContext) {
 				if (panel) {
 					const documentText = document.getText();
 					const documentName = document.fileName;
+
 					if (documentText.length === 0) {
 						panel.title = documentName.split(path.sep).pop() + " | " + extensionTitle;
 						panel.webview.html = provider.provideTextDocumentContent(rootUri, "{'name': 'Default Models', 'models':''}");
@@ -76,7 +78,7 @@ export function activate(context: vscode.ExtensionContext) {
 						try {
 							panel.title = editorName.split(path.sep).pop() + " | " + extensionTitle;
 							panel.webview.postMessage({ command: 'newModel', model: JSON.parse(editorText)});
-						} catch (error) {
+						} catch (error: any) {
 							panel.webview.postMessage({ command: 'error', errorMessage: error.message, errorName: error.name});
 						}
 					}
@@ -109,7 +111,7 @@ export function activate(context: vscode.ExtensionContext) {
 						'legend': legend
 					};
 					panel.webview.postMessage({ command: 'newConfiguration', configuration: graphLayoutOptions});
-				} catch (error) {
+				} catch (error: any) {
 					panel.webview.postMessage({ command: 'error', errorMessage: error.message, errorName: error.name});
 				}
 			}
@@ -123,7 +125,7 @@ export function activate(context: vscode.ExtensionContext) {
 					if (panel) {
 						try {
 							panel.webview.postMessage({ command: 'newModel', model: JSON.parse(editorText)});
-						} catch (error) {
+						} catch (error: any) {
 							panel.webview.postMessage({ command: 'error', errorMessage: error.message, errorName: error.name});
 						}
 					}
@@ -138,7 +140,6 @@ export function activate(context: vscode.ExtensionContext) {
 			context.subscriptions
 		);
 	});
-
 
 	context.subscriptions.push(disposable);
 }
