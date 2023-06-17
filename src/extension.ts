@@ -1,22 +1,23 @@
 import * as vscode from 'vscode';
-import { ModelProvider } from './modelProvider';
 import * as path from 'path';
+import { ModelProvider } from './modelProvider';
 import { getRankdir, getAlign, getRanker } from './utils';
 
 export function activate(context: vscode.ExtensionContext) {
-	const provider = new ModelProvider();
 	let panel: vscode.WebviewPanel | undefined = undefined;
-	const iconDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'images', 'icon.png'));
-	const nodeModulesPath = vscode.Uri.file(
-		path.join(context.extensionPath, 'node_modules')
-	);
-	const extensionTitle = "AltWalker Model Visualier";
+
+	const provider = new ModelProvider();
+
+	const rootPath = vscode.Uri.file(path.join(context.extensionPath));
+	const iconDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'images', 'icon.svg'));
+
+	const extensionTitle = "AltWalker Model Visualizer";
 
 	let disposable: any = vscode.commands.registerCommand('altwalker.launch', (document) => {
 
 		let viewColumn: vscode.ViewColumn;
 
-		if (vscode.window.activeTextEditor?.viewColumn){
+		if (vscode.window.activeTextEditor?.viewColumn) {
 			viewColumn = vscode.window.activeTextEditor.viewColumn + 1;
 		} else {
 			viewColumn = 1;
@@ -36,7 +37,7 @@ export function activate(context: vscode.ExtensionContext) {
 			);
 		}
 
-		const nodeModulesUri = panel.webview.asWebviewUri(nodeModulesPath);
+		const rootUri = panel.webview.asWebviewUri(rootPath);
 
 		panel.iconPath = iconDiskPath;
 
@@ -45,12 +46,13 @@ export function activate(context: vscode.ExtensionContext) {
 				if (panel) {
 					const documentText = document.getText();
 					const documentName = document.fileName;
+
 					if (documentText.length === 0) {
 						panel.title = documentName.split(path.sep).pop() + " | " + extensionTitle;
-						panel.webview.html = provider.provideTextDocumentContent(nodeModulesUri, "{'name': 'Default Models', 'models':''}");
+						panel.webview.html = provider.provideTextDocumentContent(rootUri, "{'name': 'Default Models', 'models':''}");
 					} else {
 						panel.title = documentName.split(path.sep).pop() + " | " + extensionTitle;
-						panel.webview.html = provider.provideTextDocumentContent(nodeModulesUri, documentText);
+						panel.webview.html = provider.provideTextDocumentContent(rootUri, documentText);
 					}
 				}
 			});
@@ -60,9 +62,9 @@ export function activate(context: vscode.ExtensionContext) {
 				const focuedEditorText = focusedEditor.document.getText();
 				const focusedEditorName = focusedEditor.document.fileName;
 				panel.title = focusedEditorName.split(path.sep).pop() + " | " + extensionTitle;
-				panel.webview.html = provider.provideTextDocumentContent(nodeModulesUri, focuedEditorText);
+				panel.webview.html = provider.provideTextDocumentContent(rootUri, focuedEditorText);
 			} else {
-				panel.webview.html = provider.provideTextDocumentContent(nodeModulesUri, "{'name': 'Default Models', 'models':''}");
+				panel.webview.html = provider.provideTextDocumentContent(rootUri, "{'name': 'Default Models', 'models':''}");
 			}
 		}
 
@@ -138,7 +140,6 @@ export function activate(context: vscode.ExtensionContext) {
 			context.subscriptions
 		);
 	});
-
 
 	context.subscriptions.push(disposable);
 }
