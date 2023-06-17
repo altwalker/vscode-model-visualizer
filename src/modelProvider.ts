@@ -28,28 +28,36 @@ export class ModelProvider {
         const layoutMarginx = configuration.get('marginx');
         const layoutMarginy = configuration.get('marginy');
         const layoutLegend = configuration.get('legend');
+
         return `<!DOCTYPE html>
                     <html lang="en">
                         <head>
                             <meta charset="UTF-8" />
                             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-                            <title>ModelVisualizer</title>
+                            <title>Model Visualizer</title>
+
                             <!-- ModelVisualizer CSS -->
                             <link rel="stylesheet" href="https://altom.gitlab.io/altwalker/model-visualizer/build/model-visualizer.css">
+
                             <!-- CSS File -->
-                            <link rel="stylesheet" href=${cssFilePath}/>
+                            <link rel="stylesheet" href="${cssFilePath}" />
                         </head>
                         <body>
                             <div id="legend"></div>
                             <div id="visualizer"></div>
+
                             <!-- D3 -->
                             <script src=${d3LibraryPath}></script>
+
                             <!-- DagreD3 -->
                             <script src=${dagreD3LibrabryPath}></script>
+
                             <!-- D3 Legend -->
                             <script src=${d3LegendLibraryPath}></script>
+
                             <!-- Vue JS -->
                             <script src=${vueLibraryPath}></script>
+
                             <!-- Model-Visualizer -->
                             <script src="https://altom.gitlab.io/altwalker/model-visualizer/build/model-visualizer.js"></script>
                             <script>

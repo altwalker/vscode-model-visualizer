@@ -71,7 +71,7 @@ body.vscode-dark {
     --edge-color: var(--dark-edge-color);
     --edge-label-color: var(--dark-edge-label-color);
 
-    --tootlip-text-color: var(--dark-edge-label-color);
+    --tooltip-text-color: var(--dark-edge-label-color);
 }
 
 body.vscode-high-contrast {
@@ -81,5 +81,5 @@ body.vscode-high-contrast {
     --edge-color: var(--high-contrast-vertex-color);
     --edge-label-color: var(--high-contrast-edge-text-color);
 
-    --tootlip-text-color: var(--high-contrast-edge-text-color);
+    --tooltip-text-color: var(--high-contrast-edge-text-color);
 }

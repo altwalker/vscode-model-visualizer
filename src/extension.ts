@@ -78,7 +78,7 @@ export function activate(context: vscode.ExtensionContext) {
 						try {
 							panel.title = editorName.split(path.sep).pop() + " | " + extensionTitle;
 							panel.webview.postMessage({ command: 'newModel', model: JSON.parse(editorText)});
-						} catch (error: any) {
+						} catch (error) {
 							panel.webview.postMessage({ command: 'error', errorMessage: error.message, errorName: error.name});
 						}
 					}
@@ -111,7 +111,7 @@ export function activate(context: vscode.ExtensionContext) {
 						'legend': legend
 					};
 					panel.webview.postMessage({ command: 'newConfiguration', configuration: graphLayoutOptions});
-				} catch (error: any) {
+				} catch (error) {
 					panel.webview.postMessage({ command: 'error', errorMessage: error.message, errorName: error.name});
 				}
 			}
@@ -125,7 +125,7 @@ export function activate(context: vscode.ExtensionContext) {
 					if (panel) {
 						try {
 							panel.webview.postMessage({ command: 'newModel', model: JSON.parse(editorText)});
-						} catch (error: any) {
+						} catch (error) {
 							panel.webview.postMessage({ command: 'error', errorMessage: error.message, errorName: error.name});
 						}
 					}
