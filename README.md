@@ -111,6 +111,8 @@ Press `Ctrl` +`Space` for snippets suggestions.
 
 For help with modeling you can read our guide [here](https://altom.gitlab.io/altwalker/altwalker/modeling.html).
 
+If you don’t like to work with JSON files you can try out our tool [Model-Editor](https://altom.gitlab.io/altwalker/model-editor/#/visual-editor) to build a model without writing code.
+
 Join our Gitter chat room [here](https://gitter.im/altwalker/community) to chat with us or with other members of the community.
 
 ## The extension uses the following libraries

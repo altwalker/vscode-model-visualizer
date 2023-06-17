@@ -39,7 +39,7 @@
 	"activationEvents": [
 		"onCommand:altwalker.launch"
 	],
-	"main": "./out/extension.js",
+	"main": "./dist/vscode-model-visualizer",
 	"contributes": {
 		"configuration": {
 			"title": "AltWalker Model Visualizer",
@@ -202,7 +202,9 @@
 		}
 	},
 	"scripts": {
-		"vscode:prepublish": "npm run compile",
+		"vscode:prepublish": "webpack --mode production",
+		"webpack": "webpack --mode development",
+		"webpack-dev": "webpack --mode development --watch",
 		"compile": "tsc -p ./",
 		"lint": "eslint src --ext ts",
 		"watch": "tsc -watch -p ./",
@@ -220,8 +222,11 @@
 		"eslint": "^6.8.0",
 		"glob": "^7.1.6",
 		"mocha": "^7.1.1",
+		"ts-loader": "^8.0.2",
 		"typescript": "^3.8.3",
-		"vscode-test": "^1.3.0"
+		"vscode-test": "^1.3.0",
+		"webpack": "^4.44.1",
+		"webpack-cli": "^3.3.12"
 	},
 	"dependencies": {
 		"d3": "^5.16.0",
