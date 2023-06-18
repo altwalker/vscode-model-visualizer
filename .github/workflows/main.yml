@@ -18,7 +18,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - run: npm install
+      - name: Install dependencies
+        run: npm ci
+
+      - run: npm run webpack
 
       - name: Run headless test
         uses: coactions/setup-xvfb@v1
