@@ -147,7 +147,7 @@ Join our Gitter chat room [here](https://gitter.im/altwalker/community) to chat 
 
 ## Development Setup
 
-## Dependencies
+### Dependencies
 
 * [D3](https://d3js.org/)
 * [d3-legend](https://d3-legend.susielu.com/)
