@@ -1,4 +1,4 @@
-# AltWalker Model Visualizer
+# AltWalker Model Visualizer VS Code Extension
 
 A Visual Studio Code extension for visualizing and editing JSON models. It expects the format required by [AltWalker](https://altom.gitlab.io/altwalker/altwalker/) and [GraphWalker](http://graphwalker.github.io/).
 
