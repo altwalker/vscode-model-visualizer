@@ -1,20 +1,20 @@
 {
 	"name": "altwalker-model-visualizer",
 	"displayName": "AltWalker Model Visualizer",
-	"description": "A library for displaying JSON models for AltWalker and GraphWalker.",
+	"description": "A Visual Studio Code extension for visualizing and editing JSON models for AltWalker and GraphWalker.",
 	"version": "0.0.2",
 	"engines": {
 		"vscode": "^1.0.0"
 	},
 	"publisher": "Altom",
-	"license": "https://gitlab.com/altom/altwalker/extensions/vscode-model-visualizer/-/blob/master/LICENSE",
-	"homepage": "https://gitlab.com/altom/altwalker/extensions/vscode-model-visualizer/-/blob/master/README.md",
+	"license": "https://github.com/altwalker/vscode-model-visualizer/blob/main/LICENSE",
+	"homepage": "https://github.com/altwalker/vscode-model-visualizer/blob/main/README.md",
 	"repository": {
 		"type": "git",
-		"url": "https://gitlab.com/altom/altwalker/extensions/vscode-model-visualizer"
+		"url": "https://github.com/altwalker/vscode-model-visualizer.git"
 	},
 	"bugs": {
-		"url": "https://gitlab.com/altom/altwalker/extensions/vscode-model-visualizer/-/issues"
+		"url": "https://github.com/altwalker/vscode-model-visualizer/issues"
 	},
 	"keywords": [
 		"AltWalker",

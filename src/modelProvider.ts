@@ -37,7 +37,7 @@ export class ModelProvider {
                             <title>Model Visualizer</title>
 
                             <!-- ModelVisualizer CSS -->
-                            <link rel="stylesheet" href="https://altom.gitlab.io/altwalker/model-visualizer/build/model-visualizer.css">
+                            <link rel="stylesheet" href="https://altwalker.github.io/model-visualizer/build/model-visualizer.css">
 
                             <!-- CSS File -->
                             <link rel="stylesheet" href="${cssFilePath}" />
@@ -59,7 +59,7 @@ export class ModelProvider {
                             <script src=${vueLibraryPath}></script>
 
                             <!-- Model-Visualizer -->
-                            <script src="https://altom.gitlab.io/altwalker/model-visualizer/build/model-visualizer.js"></script>
+                            <script src="https://altwalker.github.io/model-visualizer/build/model-visualizer.js"></script>
                             <script>
                                 let visualizer = null;
                                 let errorDiv = null;
